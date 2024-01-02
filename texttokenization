@@ -1,0 +1,60 @@
+#Uses Natural Language Text Processing to tokenize or itemize the words included in the text, finds out their frequency distribution, and creates a word cloud of the most common words
+#a class lab project 
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import datasets
+import nltk
+from nltk.tokenize import word_tokenize
+import requests
+nltk.download('punkt')
+url='https://ocw.mit.edu/ans7870/6/6.006/s08/lecturenotes/files/t8.shakespeare.txt'
+response=requests.get(url)
+data=response.text
+tokens = nltk.word_tokenize(data)
+for i in range(50):
+  print (tokens[i])
+from nltk.tokenize import sent_tokenize
+sentence_tokens=sent_tokenize(data)
+for i in range(10):
+  print(sentence_tokens[i])
+import re
+str1 = re.sub(r"[^\w\s]|_", "", data)
+words = nltk.tokenize.word_tokenize(str1)
+for i in range(50):
+  print (words[i])
+from nltk.probability import FreqDist
+fdist = FreqDist()
+for word in words:
+  fdist[word.lower()] += 1
+df_fdist = pd.DataFrame.from_dict(fdist, orient='index')
+df_fdist.columns = ['Frequency']
+df_fdist.index.name = 'Term'
+df_fdist.head(10)
+df_fdist.sort_values(by=['Frequency'], ascending=False)
+from nltk.corpus import stopwords
+nltk.download('stopwords')
+stopwords = nltk.corpus.stopwords.words('english')
+allStopDist = nltk.FreqDist(w.lower() for w in words if w in stopwords)    
+mostCommon= allStopDist.most_common(10)
+print(mostCommon)
+from PIL import Image
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
+import matplotlib.pyplot as plt
+wordcloud = WordCloud().generate(data)
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()
+from nltk.stem import PorterStemmer
+ps = PorterStemmer()
+for i in range(10):
+  print ("{0:20}{1:20}".format(words[i], ps.stem(words[i])))
+from nltk.stem import WordNetLemmatizer
+nltk.download("wordnet")
+nltk.download("omw-1.4")
+wnl = WordNetLemmatizer()
+for i in range(10):
+  print ("{0:20}{1:20}".format(words[i], wnl.lemmatize(words[i], pos="v")))
+
+  
