@@ -1,0 +1,27 @@
+#support vector classification of the load_wine dataset
+#uses sklearn, matplotlib
+from sklearn.datasets import load_wine
+import matplotlib.pyplot as plt
+from sklearn.inspection import DecisionBoundaryDisplay
+from sklearn.svm import SVC
+
+wine = load_wine()
+X = wine.data[:, :2]
+y = wine.target
+
+svm = SVC(kernel="linear", C=1)
+svm.fit(X, y)
+
+DecisionBoundaryDisplay.from_estimator(
+        svm,
+        X,
+        response_method="predict",
+        cmap=plt.cm.Spectral,
+        alpha=0.8,
+        xlabel=wine.feature_names[0],
+        ylabel=wine.feature_names[1],
+    )
+plt.scatter(X[:, 0], X[:, 1],
+            c=y,
+            s=20)
+plt.show()
