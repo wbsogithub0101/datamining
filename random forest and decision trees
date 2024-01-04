@@ -7,30 +7,7 @@
         "colab_type": "text"
       },
       "source": [
-        "<a href=\"https://colab.research.google.com/github/wbsogithub0101/datamining/blob/main/Lab_8.ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata": {
-        "id": "iXMaetf6MAx4"
-      },
-      "source": [
-        "# <font color='blue'>Lab 8 - CCPS 844 Data Mining</font>\n",
-        "### <font color='red'> Answer the following questions and submit a PDF file on the D2L.</font>\n"
-      ]
-    },
-    {
-      "cell_type": "markdown",
-      "metadata": {
-        "id": "-ZvbVOgQMAx-"
-      },
-      "source": [
-        "**Select a dataset of your choice.**\n",
-        "\n",
-        "* Apply Random Forest and Decision Tree\n",
-        "* Evaluate the algos by changing parameter \"criterion\" for both (entropy, gini) and \"n_estimators\" for Random Forest\n",
-        "* Compare your results (evaluation metrics)"
+        "<a href=\"https://colab.research.google.com/github/wbsogithub0101/datamining/blob/main/random%20forest%20and%20decision%20trees\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
       ]
     },
     {
