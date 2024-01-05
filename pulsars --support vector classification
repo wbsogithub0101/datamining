@@ -1,0 +1,117 @@
+#examines pulsar stars data to describe statistical features, such as boxplots and histogram plots of columns
+#uses support vector classification as a supervised learning model to perform classification and analysis, which is then reviewed for such features as precision and accuracy
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import datasets
+
+url='https://raw.githubusercontent.com/alexandrehsd/Predicting-Pulsar-Stars/master/pulsar_stars.csv'
+pulsar_star_data= pd.read_csv(url, names=["mean", "standard_deviation", "excess_kurtosis", "skewness", "mean_dmsnr_curve", "sd_dmsnr_curve", "excess_kurtosis_dmsnr_curve", "skewness_dmsnr_curve","target_class"])
+
+pulsar_star_data.shape
+
+pulsar_star_data=pulsar_star_data.drop(index=0)
+
+pulsar_star_data.dropna()
+
+pulsar_star_data.head()
+
+fig, axes = plt.subplots(nrows=1, ncols=3)
+axes[0].boxplot(pd.to_numeric(pulsar_star_data['mean']))
+axes[0].set_title('Mean')
+axes[1].boxplot(pd.to_numeric(pulsar_star_data['standard_deviation']))
+axes[1].set_title('SD')
+axes[2].boxplot(pd.to_numeric(pulsar_star_data['excess_kurtosis']))
+axes[2].set_title('Excess Kurtosis')
+plt.show()
+
+fig, axes = plt.subplots(nrows=1, ncols=3)
+axes[0].boxplot(pd.to_numeric(pulsar_star_data['skewness']))
+axes[0].set_title('Skewness')
+axes[1].boxplot(pd.to_numeric(pulsar_star_data['mean_dmsnr_curve']))
+axes[1].set_title('Mean of DMSNR Curve')
+axes[2].boxplot(pd.to_numeric(pulsar_star_data['sd_dmsnr_curve']))
+axes[2].set_title('SD of DMSNR Curve')
+plt.show()
+
+fig, axes = plt.subplots(nrows=1, ncols=3)
+axes[0].boxplot(pd.to_numeric(pulsar_star_data['excess_kurtosis_dmsnr_curve']))
+axes[0].set_title('Excess Kurtosis Of Dmsnr Curve	')
+axes[1].boxplot(pd.to_numeric(pulsar_star_data['skewness_dmsnr_curve']))
+axes[1].set_title('Skewness of DMSNR Curve')
+axes[2].boxplot(pd.to_numeric(pulsar_star_data['target_class']))
+axes[2].set_title('Target Class')
+plt.show()
+
+fig, axes = plt.subplots(nrows=1, ncols=3)
+axes[0].hist(pd.to_numeric(pulsar_star_data['mean']))
+axes[0].set_title('Mean')
+axes[1].hist(pd.to_numeric(pulsar_star_data['standard_deviation']))
+axes[1].set_title('SD')
+axes[2].hist(pd.to_numeric(pulsar_star_data['excess_kurtosis']))
+axes[2].set_title('Excess Kurtosis')
+plt.show()
+
+fig, axes = plt.subplots(nrows=1, ncols=3)
+axes[0].hist(pd.to_numeric(pulsar_star_data['skewness']))
+axes[0].set_title('Skewness')
+axes[1].hist(pd.to_numeric(pulsar_star_data['mean_dmsnr_curve']))
+axes[1].set_title('Mean of DMSNR Curve')
+axes[2].hist(pd.to_numeric(pulsar_star_data['sd_dmsnr_curve']))
+axes[2].set_title('SD of DMSNR Curve')
+plt.show()
+
+fig, axes = plt.subplots(nrows=1, ncols=3)
+axes[0].hist(pd.to_numeric(pulsar_star_data['excess_kurtosis_dmsnr_curve']))
+axes[0].set_title('Excess_kurtosis_dmsnr_curve')
+axes[1].hist(pd.to_numeric(pulsar_star_data['skewness_dmsnr_curve']))
+axes[1].set_title('Skewness_dmsnr_curve')
+axes[2].hist(pd.to_numeric(pulsar_star_data['target_class']))
+axes[2].set_title('Target Class')
+plt.show()
+
+from sklearn.model_selection import train_test_split
+target=pulsar_star_data['target_class'].copy()
+X_train, X_test, y_train, y_test = train_test_split(pulsar_star_data, target, test_size=0.2,random_state=0)
+
+from sklearn import svm
+clf = svm.SVC()
+clf.fit(X_train, y_train)
+y_pred = clf.predict(X_test)
+from sklearn import metrics
+print("Accuracy:",metrics.accuracy_score(y_test, y_pred))
+
+from sklearn.metrics import classification_report
+clf1 = svm.SVC(C= 1.0)
+clf2 = svm.SVC(C= 100.0)
+clf3 = svm.SVC(C= 1000.0)
+clf1.fit(X_train, y_train)
+clf2.fit(X_train, y_train)
+clf3.fit(X_train, y_train)
+y_pred1 = clf1.predict(X_test)
+y_pred2 = clf2.predict(X_test)
+y_pred3 = clf3.predict(X_test)
+print(classification_report(y_test, y_pred1))
+print(classification_report(y_test, y_pred2))
+print(classification_report(y_test, y_pred3))
+
+clf4 = svm.SVC(kernel='linear')
+clf4.fit(X_train, y_train)
+y_pred4 = clf4.predict(X_test)
+print("Accuracy:",metrics.accuracy_score(y_test, y_pred4))
+
+clf11 = svm.SVC(C= 1.0, kernel='linear')
+clf21 = svm.SVC(C= 100.0, kernel='linear')
+clf31 = svm.SVC(C= 1000.0, kernel='linear')
+clf11.fit(X_train, y_train)
+clf21.fit(X_train, y_train)
+clf31.fit(X_train, y_train)
+y_pred11 = clf11.predict(X_test)
+y_pred21 = clf21.predict(X_test)
+y_pred31 = clf31.predict(X_test)
+print(classification_report(y_test, y_pred11))
+print(classification_report(y_test, y_pred21))
+print(classification_report(y_test, y_pred31))
+
